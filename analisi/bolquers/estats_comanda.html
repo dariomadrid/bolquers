@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estats de la comanda — Aplicació Bolquers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+  .card {
+    background: #f5f5f5;
+    border-radius: 12px;
+    border: 1px solid rgba(45,49,66,0.12);
+    padding: 40px 40px 36px;
+    max-width: 880px;
+    width: 100%;
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a8399;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #2d3142;
+    margin-bottom: 28px;
+  }
+  svg { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="eyebrow">Màquina d'estats</p>
+  <h1>Cicle de vida de la comanda</h1>
+
+  <svg viewBox="0 0 820 620" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-labelledby="sm-title sm-desc">
+    <title id="sm-title">Màquina d'estats de la comanda</title>
+    <desc id="sm-desc">Diagrama d'estats de la comanda amb els estats: inici, pendent_pagament, pagada, pendent_compra, comprada, rebuda, pendent_entrega, entregada (final), cancel·lada (final) i falta_estoc (excepció).</desc>
+
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#2d3142"/>
+      </marker>
+      <marker id="arr-m" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#4f5d75"/>
+      </marker>
+      <marker id="arr-acc" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#eb6c36"/>
+      </marker>
+      <marker id="arr-err" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#9c6b50"/>
+      </marker>
+    </defs>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  INICI — filled dot                            -->
+    <!-- ══════════════════════════════════════════════ -->
+    <circle cx="60" cy="60" r="8" fill="#2d3142"/>
+    <!-- inici → pendent_pagament -->
+    <path d="M 60,68 V 94" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  ESTATS — happy path (esquerra, vertical)      -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- pendent_pagament -->
+    <rect x="10" y="94" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="116" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">pendent_pagament</text>
+
+    <!-- → pagada -->
+    <path d="M 90,130 V 180" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="30" y="144" width="120" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="90" y="158" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">webhook / pagament OK</text>
+
+    <!-- pagada -->
+    <rect x="10" y="180" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="202" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">pagada</text>
+
+    <!-- → pendent_compra -->
+    <path d="M 90,216 V 266" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="20" y="230" width="140" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="90" y="244" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">gestor agrupa comandes</text>
+
+    <!-- pendent_compra -->
+    <rect x="10" y="266" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="288" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">pendent_compra</text>
+
+    <!-- → comprada -->
+    <path d="M 90,302 V 352" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="24" y="316" width="132" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="90" y="330" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">gestor compra al proveïdor</text>
+
+    <!-- comprada -->
+    <rect x="10" y="352" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="374" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">comprada</text>
+
+    <!-- → rebuda -->
+    <path d="M 90,388 V 438" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="30" y="402" width="120" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="90" y="416" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">proveïdor entrega</text>
+
+    <!-- rebuda -->
+    <rect x="10" y="438" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="460" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">rebuda</text>
+
+    <!-- → pendent_entrega -->
+    <path d="M 90,474 V 524" fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="20" y="488" width="140" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="90" y="502" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">gestor dist. recepciona</text>
+
+    <!-- pendent_entrega -->
+    <rect x="10" y="524" width="160" height="36" rx="8"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="90" y="546" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">pendent_entrega</text>
+
+    <!-- → entregada (FOCAL) -->
+    <path d="M 170,542 H 230 Q 238,542 238,542 H 260"
+          fill="none" stroke="#eb6c36" stroke-width="1.5" marker-end="url(#arr-acc)"/>
+    <rect x="172" y="533" width="96" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="220" y="547" text-anchor="middle" fill="#eb6c36"
+          font-family="'Geist Mono',monospace" font-size="8">professional recull</text>
+
+    <!-- entregada (FOCAL — estat final happy) -->
+    <rect x="260" y="524" width="140" height="36" rx="8"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="330" y="546" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">entregada</text>
+    <!-- fi: ringed dot -->
+    <circle cx="330" cy="572" r="8" fill="none" stroke="#eb6c36" stroke-width="2"/>
+    <circle cx="330" cy="572" r="4" fill="#eb6c36"/>
+    <path d="M 330,560 V 564" fill="none" stroke="#eb6c36" stroke-width="1.5"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  CANCEL·LADA — estat final d'error             -->
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- cancel·lada des de pendent_pagament -->
+    <path d="M 170,112 H 510 Q 518,112 518,120 V 180 Q 518,188 526,188 H 540"
+          fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr-m)"/>
+    <rect x="320" y="103" width="136" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="388" y="117" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">error pagament / timeout 24h</text>
+
+    <!-- cancel·lada des de pagada -->
+    <path d="M 170,198 H 510 Q 518,198 518,206 V 212"
+          fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr-m)"/>
+    <rect x="330" y="189" width="110" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="385" y="203" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8">professional cancel·la</text>
+
+    <!-- cancel·lada node -->
+    <rect x="540" y="160" width="130" height="36" rx="8"
+          fill="rgba(45,49,66,0.04)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="605" y="182" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">cancel·lada</text>
+    <!-- fi cancel·lada -->
+    <circle cx="605" cy="208" r="7" fill="none" stroke="#4f5d75" stroke-width="1.5"/>
+    <circle cx="605" cy="208" r="3.5" fill="#4f5d75"/>
+    <path d="M 605,196 V 201" fill="none" stroke="#4f5d75" stroke-width="1.2"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  FALTA_ESTOC — excepció des de comprada        -->
+    <!-- ══════════════════════════════════════════════ -->
+    <path d="M 170,370 H 386 Q 394,370 394,378 V 414 Q 394,422 402,422 H 420"
+          fill="none" stroke="rgba(156,107,80,0.6)" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-err)"/>
+    <rect x="224" y="361" width="96" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="272" y="375" text-anchor="middle" fill="rgba(156,107,80,0.8)"
+          font-family="'Geist Mono',monospace" font-size="8">[linia no disponible]</text>
+
+    <!-- falta_estoc node -->
+    <rect x="420" y="402" width="140" height="40" rx="8"
+          fill="rgba(156,107,80,0.06)" stroke="rgba(156,107,80,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="490" y="418" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">falta_estoc</text>
+    <text x="490" y="432" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">per línia de comanda</text>
+
+    <!-- falta_estoc → devolució parcial (torna a cancel·lada/gestió) -->
+    <path d="M 560,422 H 586 Q 594,422 594,430 V 460 Q 594,468 586,468 H 572 Q 560,468 560,476"
+          fill="none" stroke="rgba(156,107,80,0.5)" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr-err)"/>
+    <rect x="552" y="459" width="92" height="22" rx="3" fill="#f5f5f5"/>
+    <text x="598" y="473" text-anchor="middle" fill="rgba(156,107,80,0.8)"
+          font-family="'Geist Mono',monospace" font-size="8">devolució parcial</text>
+
+    <!-- devolució → gestió incidències -->
+    <rect x="420" y="476" width="140" height="36" rx="8"
+          fill="rgba(156,107,80,0.04)" stroke="rgba(156,107,80,0.35)" stroke-width="1"/>
+    <text x="490" y="498" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">gestió incidència</text>
+    <!-- fi incidència -->
+    <path d="M 490,512 V 526" fill="none" stroke="rgba(156,107,80,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+    <circle cx="490" cy="530" r="7" fill="none" stroke="rgba(156,107,80,0.5)" stroke-width="1.5"/>
+    <circle cx="490" cy="530" r="3.5" fill="rgba(156,107,80,0.5)"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  NOTA * → cancel·lada (des de qualsevol estat)  -->
+    <!-- ══════════════════════════════════════════════ -->
+    <rect x="640" y="60" width="168" height="52" rx="6"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.15)" stroke-width="0.8"/>
+    <text x="724" y="82" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9" font-style="italic">* → cancel·lada</text>
+    <text x="724" y="98" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8">si Job timeout 24h en</text>
+    <text x="724" y="108" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8">pendent_pagament</text>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  LLEGENDA                                      -->
+    <!-- ══════════════════════════════════════════════ -->
+    <rect x="640" y="140" width="168" height="130" rx="6"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <text x="724" y="160" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.14em">LLEGENDA</text>
+
+    <!-- happy path -->
+    <line x1="654" y1="176" x2="680" y2="176" stroke="#2d3142" stroke-width="1.2"/>
+    <polygon points="677,173 684,176 677,179" fill="#2d3142"/>
+    <text x="690" y="180" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="8">transició normal</text>
+
+    <!-- handoff focal -->
+    <line x1="654" y1="196" x2="680" y2="196" stroke="#eb6c36" stroke-width="1.5"/>
+    <polygon points="677,193 684,196 677,199" fill="#eb6c36"/>
+    <text x="690" y="200" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="8">transició final</text>
+
+    <!-- cancel dashed -->
+    <line x1="654" y1="216" x2="680" y2="216" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"/>
+    <polygon points="677,213 684,216 677,219" fill="#4f5d75"/>
+    <text x="690" y="220" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="8">cancel·lació</text>
+
+    <!-- error -->
+    <line x1="654" y1="236" x2="680" y2="236" stroke="rgba(156,107,80,0.6)" stroke-width="1.1" stroke-dasharray="4,3"/>
+    <polygon points="677,233 684,236 677,239" fill="rgba(156,107,80,0.6)"/>
+    <text x="690" y="240" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="8">excepció</text>
+
+    <!-- end states -->
+    <circle cx="658" cy="256" r="6" fill="none" stroke="#2d3142" stroke-width="1.5"/>
+    <circle cx="658" cy="256" r="3" fill="#2d3142"/>
+    <text x="672" y="260" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="8">estat final</text>
+
+  </svg>
+</div>
+</body>
+</html>

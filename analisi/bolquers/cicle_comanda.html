@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cicle de vida de la comanda — Bolquers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 48px 24px;
+    font-family: 'Geist', sans-serif;
+  }
+  .card {
+    background: #f5f5f5;
+    border-radius: 12px;
+    border: 1px solid rgba(45,49,66,0.12);
+    padding: 40px 40px 36px;
+    max-width: 1000px;
+    width: 100%;
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a8399;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #2d3142;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #7a8399;
+    margin-bottom: 28px;
+  }
+  svg { width: 100%; height: auto; display: block; }
+  .legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #7a8399;
+    letter-spacing: 0.06em;
+  }
+  .leg-arrow { width: 24px; height: 12px; position: relative; }
+  .leg-arrow svg { width: 100%; height: 100%; }
+  .leg-swatch { width: 10px; height: 10px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="eyebrow">Flux de negoci</p>
+  <h1>Cicle de vida de la comanda</h1>
+  <p class="subtitle">Actors: professional · passarel·la de pagament · gestor distribució · gestor compra (IAS)</p>
+
+  <svg viewBox="0 0 920 1200" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-labelledby="swim-title swim-desc">
+    <title id="swim-title">Cicle de vida de la comanda — Bolquers</title>
+    <desc id="swim-desc">
+      Diagrama de swimlane amb 4 actors (Professional, Passarel·la, Gestor Distribució i Gestor Compra IAS) que mostra el flux complet des de l'obertura de la finestra de compra fins al lliurament presencial, incloent excepcions per falta d'estoc i errors de pagament.
+    </desc>
+
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#2d3142"/>
+      </marker>
+      <marker id="arr-m" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#4f5d75"/>
+      </marker>
+      <marker id="arr-acc" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#eb6c36"/>
+      </marker>
+      <marker id="arr-err" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#9c6b50"/>
+      </marker>
+    </defs>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  LANE HEADERS + DIVIDERS                       -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- Header row bg -->
+    <rect x="0" y="0" width="920" height="44" rx="0" fill="#ececec"/>
+
+    <!-- Lane column widths: 0..229 · 230..459 · 460..689 · 690..919 -->
+
+    <!-- Lane headers -->
+    <text x="115" y="27" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="9" font-weight="500"
+          letter-spacing="0.18em" text-transform="uppercase">PROFESSIONAL</text>
+
+    <text x="344" y="27" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="9" font-weight="500"
+          letter-spacing="0.18em">PASSAREL·LA</text>
+
+    <text x="574" y="27" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="9" font-weight="500"
+          letter-spacing="0.18em">GESTOR DISTRIBUCIÓ</text>
+
+    <text x="804" y="27" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="9" font-weight="500"
+          letter-spacing="0.18em">GESTOR COMPRA · IAS</text>
+
+    <!-- Header bottom line -->
+    <line x1="0" y1="44" x2="920" y2="44" stroke="#bfc0c0" stroke-width="1"/>
+
+    <!-- Vertical lane dividers -->
+    <line x1="230" y1="0" x2="230" y2="1200" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
+    <line x1="460" y1="0" x2="460" y2="1200" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
+    <line x1="690" y1="0" x2="690" y2="1200" stroke="rgba(45,49,66,0.10)" stroke-width="1"/>
+
+    <!-- Lane bg tints (alternating for readability) -->
+    <rect x="0"   y="44" width="230" height="1156" fill="rgba(45,49,66,0.015)"/>
+    <rect x="460" y="44" width="230" height="1156" fill="rgba(45,49,66,0.015)"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  PHASE SEPARATORS                              -->
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- Phase 1: Compra (y=44..380) -->
+    <rect x="0" y="44" width="920" height="0" fill="none"/>
+    <rect x="2" y="46" width="64" height="14" rx="2" fill="#ececec"/>
+    <text x="34" y="56" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.10em">COMPRA</text>
+
+    <!-- Phase separator -->
+    <line x1="0" y1="390" x2="920" y2="390" stroke="rgba(45,49,66,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+    <rect x="2" y="392" width="88" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="46" y="402" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.10em">GESTIÓ COMPRA</text>
+
+    <!-- Phase separator 2 -->
+    <line x1="0" y1="700" x2="920" y2="700" stroke="rgba(45,49,66,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+    <rect x="2" y="702" width="86" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="45" y="712" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.10em">DISTRIBUCIÓ</text>
+
+    <!-- Phase separator 3 -->
+    <line x1="0" y1="930" x2="920" y2="930" stroke="rgba(45,49,66,0.08)" stroke-width="1" stroke-dasharray="4,4"/>
+    <rect x="2" y="932" width="78" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="41" y="942" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.10em">EXCEPCIONS</text>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  NODES                                         -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- === FASE COMPRA === -->
+
+    <!-- A: Finestra oberta (estat del sistema, no pas) -->
+    <rect x="20" y="60" width="190" height="44" rx="4"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.18)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="115" y="78" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Finestra de compra</text>
+    <text x="115" y="93" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">dies 1–20 del mes</text>
+
+    <!-- B: Professional fa la comanda -->
+    <rect x="20" y="130" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="115" y="148" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Selecciona productes</text>
+    <text x="115" y="163" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">límit mensual visible</text>
+
+    <!-- C: Comanda pendent_pagament -->
+    <rect x="20" y="200" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="115" y="217" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Comanda creada</text>
+    <text x="115" y="232" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">estat: pendent_pagament</text>
+
+    <!-- D: Redirecció passarel·la -->
+    <rect x="20" y="268" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="115" y="284" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Redirecció passarel·la</text>
+    <text x="115" y="299" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">idempotency_key UUID</text>
+
+    <!-- E: Passarel·la processa pagament (FOCAL) -->
+    <rect x="250" y="268" width="190" height="44" rx="4"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="345" y="284" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Processa pagament</text>
+    <text x="345" y="299" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">Redsys · Stripe</text>
+
+    <!-- F: Webhook POST (entre passarel·la i backend/professional) -->
+    <rect x="250" y="332" width="190" height="44" rx="4"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="345" y="348" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Webhook POST</text>
+    <text x="345" y="363" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">signatura HMAC · idempotent</text>
+
+    <!-- G: Comanda confirmada + email -->
+    <rect x="20" y="332" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="115" y="349" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Rebut per email</text>
+    <text x="115" y="364" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">estat: pagada</text>
+
+    <!-- === FASE GESTIÓ COMPRA === -->
+
+    <!-- H: Gestor Dist. tanca finestra i agrupa -->
+    <rect x="480" y="408" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="575" y="424" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Agrupa comandes</text>
+    <text x="575" y="439" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">tanca finestra dia 20</text>
+
+    <!-- I: Tramita al gestor compra (handoff FOCAL) -->
+    <rect x="700" y="408" width="200" height="44" rx="4"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="800" y="424" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Tramita al proveïdor</text>
+    <text x="800" y="439" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">números absoluts per producte</text>
+
+    <!-- J: Proveïdor entrega -->
+    <rect x="700" y="474" width="200" height="44" rx="4"
+          fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="800" y="490" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Proveïdor entrega</text>
+    <text x="800" y="505" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">valida quantitat rebuda</text>
+
+    <!-- K: Distribueix als punts -->
+    <rect x="700" y="540" width="200" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="800" y="556" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Distribueix als punts</text>
+    <text x="800" y="571" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">comandes → punts distribució</text>
+
+    <!-- === FASE DISTRIBUCIÓ === -->
+
+    <!-- L: Gestor Dist. recepciona -->
+    <rect x="480" y="718" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="575" y="734" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Recepciona productes</text>
+    <text x="575" y="749" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">valida recepció punt</text>
+
+    <!-- M: Email pendent entrega -->
+    <rect x="480" y="784" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="575" y="800" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Notifica professional</text>
+    <text x="575" y="815" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">email: comanda disponible</text>
+
+    <!-- N: Professional recull (FOCAL — lliurament presencial) -->
+    <rect x="20" y="852" width="190" height="44" rx="4"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="115" y="868" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Recull la comanda</text>
+    <text x="115" y="883" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">presencial · QR opcional</text>
+
+    <!-- O: Estat entregada -->
+    <rect x="480" y="852" width="190" height="44" rx="4"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <text x="575" y="868" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Registra lliurament</text>
+    <text x="575" y="883" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">estat: entregada</text>
+
+    <!-- === FASE EXCEPCIONS === -->
+
+    <!-- P: Error pagament -->
+    <rect x="20" y="950" width="190" height="54" rx="4"
+          fill="rgba(156,107,80,0.06)" stroke="rgba(156,107,80,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="115" y="964" text-anchor="middle" fill="rgba(45,49,66,0.35)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">EXCEPCIÓ</text>
+    <text x="115" y="980" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Error de pagament</text>
+    <text x="115" y="995" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">comanda NO processada</text>
+
+    <!-- Q: Falta estoc -->
+    <rect x="700" y="950" width="200" height="54" rx="4"
+          fill="rgba(156,107,80,0.06)" stroke="rgba(156,107,80,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="800" y="964" text-anchor="middle" fill="rgba(45,49,66,0.35)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">EXCEPCIÓ</text>
+    <text x="800" y="980" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Falta estoc proveïdor</text>
+    <text x="800" y="995" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">línia: falta_estoc → devolució</text>
+
+    <!-- R: Gestió incidències massiva -->
+    <rect x="480" y="1050" width="190" height="44" rx="4"
+          fill="rgba(156,107,80,0.06)" stroke="rgba(156,107,80,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="575" y="1066" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Gestió incidències</text>
+    <text x="575" y="1081" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">email massiu · devolució API</text>
+
+    <!-- S: Professional notificat -->
+    <rect x="20" y="1050" width="190" height="44" rx="4"
+          fill="rgba(156,107,80,0.06)" stroke="rgba(156,107,80,0.45)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="115" y="1066" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Rep devolució</text>
+    <text x="115" y="1081" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">email + import retornat</text>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  CONNECTORS                                    -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- Finestra → Selecciona (vertical) -->
+    <path d="M 115,104 V 130" fill="none" stroke="#4f5d75" stroke-width="1"
+          stroke-dasharray="4,3" marker-end="url(#arr-m)"/>
+
+    <!-- Selecciona → Comanda creada -->
+    <path d="M 115,174 V 200" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Comanda creada → Redirecció -->
+    <path d="M 115,244 V 268" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Redirecció → Passarel·la processa (handoff: horitzontal) -->
+    <path d="M 210,290 H 238 Q 246,290 246,290 H 250"
+          fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="202" y="281" width="54" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="229" y="290" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">redirecció</text>
+
+    <!-- Passarel·la processa → Webhook -->
+    <path d="M 345,312 V 332" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Webhook → Laravel API (handoff a l'esquerra: Passarel·la → Professional lane) -->
+    <path d="M 250,354 H 218 Q 210,354 210,354 H 210"
+          fill="none" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <rect x="186" y="345" width="58" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="215" y="354" text-anchor="middle" fill="#eb6c36"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">confirma</text>
+
+    <!-- Rebut email → (fi fase compra, apunta cap avall cap a fase gestió) -->
+    <path d="M 115,376 V 390" fill="none" stroke="#4f5d75" stroke-width="1"
+          stroke-dasharray="4,3" marker-end="url(#arr-m)"/>
+
+    <!-- === HANDOFF: pagada → gestor distribució agrupa === -->
+    <!-- Comanda pagada (implícita, missatger entre lanes) -->
+    <path d="M 210,354 H 430 Q 438,354 438,362 V 422 Q 438,430 446,430 H 480"
+          fill="none" stroke="#4f5d75" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-m)"/>
+    <rect x="318" y="408" width="46" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="341" y="417" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">pagada</text>
+
+    <!-- Agrupa → Tramita handoff -->
+    <path d="M 670,430 H 698 Q 700,430 700,430 H 700"
+          fill="none" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <rect x="652" y="421" width="54" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="679" y="430" text-anchor="middle" fill="#eb6c36"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">tramita</text>
+
+    <!-- Tramita → Proveïdor entrega (vertical) -->
+    <path d="M 800,452 V 474" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Proveïdor entrega → Distribueix (vertical) -->
+    <path d="M 800,518 V 540" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Distribueix → Gestor Dist. recepciona (handoff dreta→esquerra) -->
+    <path d="M 700,562 H 688 Q 680,562 680,570 V 730 Q 680,738 672,738 H 670"
+          fill="none" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <rect x="634" y="644" width="92" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="680" y="653" text-anchor="middle" fill="#eb6c36"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">envia al punt</text>
+
+    <!-- Recepciona → Notifica (vertical) -->
+    <path d="M 575,762 V 784" fill="none" stroke="#2d3142" stroke-width="1.2"
+          marker-end="url(#arr)"/>
+
+    <!-- Notifica professional → Professional recull (handoff dreta→esquerra) -->
+    <path d="M 480,806 H 240 Q 232,806 232,814 V 862 Q 232,870 224,870 H 210"
+          fill="none" stroke="#eb6c36" stroke-width="1.4" marker-end="url(#arr-acc)"/>
+    <rect x="310" y="849" width="86" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="353" y="858" text-anchor="middle" fill="#eb6c36"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">comanda disponible</text>
+
+    <!-- Professional recull → Registra lliurament (handoff esquerra→dreta) -->
+    <path d="M 210,874 H 440 Q 448,874 448,874 H 480"
+          fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="316" y="865" width="48" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="340" y="874" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">confirma</text>
+
+    <!-- === EXCEPCIONS === -->
+
+    <!-- Pagament fallat: Passarel·la webhook → Professional error -->
+    <path d="M 250,960 H 228 Q 220,960 220,960 H 210"
+          fill="none" stroke="rgba(156,107,80,0.6)" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-err)"/>
+    <rect x="193" y="951" width="44" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="215" y="960" text-anchor="middle" fill="rgba(156,107,80,0.8)"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">KO</text>
+
+    <!-- Error pagament node: connexió de context -->
+    <rect x="250" y="950" width="190" height="54" rx="4"
+          fill="rgba(156,107,80,0.04)" stroke="rgba(156,107,80,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="345" y="972" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist',sans-serif" font-size="11" font-weight="600">Signatura invàlida</text>
+    <text x="345" y="987" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">comanda no avança</text>
+
+    <!-- Falta estoc → Gestor dist. incidències -->
+    <path d="M 700,977 H 688 Q 680,977 680,985 V 1072 Q 680,1080 672,1080 H 670"
+          fill="none" stroke="rgba(156,107,80,0.5)" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-err)"/>
+
+    <!-- Gestor dist. incidències → Professional rep devolució -->
+    <path d="M 480,1072 H 228 Q 220,1072 220,1072 H 210"
+          fill="none" stroke="rgba(156,107,80,0.5)" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-err)"/>
+    <rect x="316" y="1063" width="50" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="341" y="1072" text-anchor="middle" fill="rgba(156,107,80,0.8)"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">devolució</text>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  ESTAT BADGES (petits estats de la comanda)    -->
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- badge: pendent_pagament -->
+    <rect x="25" y="246" width="118" height="13" rx="3" fill="rgba(45,49,66,0.06)"/>
+    <text x="84" y="256" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">pendent_pagament</text>
+
+    <!-- badge: pagada -->
+    <rect x="25" y="376" width="56" height="13" rx="3" fill="rgba(45,49,66,0.06)"/>
+    <text x="53" y="386" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">pagada</text>
+
+    <!-- badge: pendent_entrega -->
+    <rect x="485" y="846" width="100" height="13" rx="3" fill="rgba(45,49,66,0.06)"/>
+    <text x="535" y="856" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">pendent_entrega</text>
+
+    <!-- badge: entregada -->
+    <rect x="485" y="898" width="70" height="13" rx="3" fill="rgba(45,49,66,0.06)"/>
+    <text x="520" y="908" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">entregada</text>
+
+  </svg>
+
+  <div class="legend">
+    <div class="legend-item">
+      <svg width="24" height="12" viewBox="0 0 24 12">
+        <line x1="0" y1="6" x2="18" y2="6" stroke="#2d3142" stroke-width="1.2"/>
+        <polygon points="15,3 22,6 15,9" fill="#2d3142"/>
+      </svg>
+      <span>flux principal</span>
+    </div>
+    <div class="legend-item">
+      <svg width="24" height="12" viewBox="0 0 24 12">
+        <line x1="0" y1="6" x2="18" y2="6" stroke="#eb6c36" stroke-width="1.4"/>
+        <polygon points="15,3 22,6 15,9" fill="#eb6c36"/>
+      </svg>
+      <span>handoff entre actors</span>
+    </div>
+    <div class="legend-item">
+      <svg width="24" height="12" viewBox="0 0 24 12">
+        <line x1="0" y1="6" x2="18" y2="6" stroke="#4f5d75" stroke-width="1.1" stroke-dasharray="4,3"/>
+        <polygon points="15,3 22,6 15,9" fill="#4f5d75"/>
+      </svg>
+      <span>flux asíncron</span>
+    </div>
+    <div class="legend-item">
+      <svg width="24" height="12" viewBox="0 0 24 12">
+        <line x1="0" y1="6" x2="18" y2="6" stroke="rgba(156,107,80,0.6)" stroke-width="1.1" stroke-dasharray="4,3"/>
+        <polygon points="15,3 22,6 15,9" fill="rgba(156,107,80,0.6)"/>
+      </svg>
+      <span>excepció / error</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura — Aplicació Bolquers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 48px 24px;
+    font-family: 'Geist', sans-serif;
+  }
+  .card {
+    background: #f5f5f5;
+    border-radius: 12px;
+    border: 1px solid rgba(45,49,66,0.12);
+    padding: 40px 40px 36px;
+    max-width: 1060px;
+    width: 100%;
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a8399;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #2d3142;
+    margin-bottom: 32px;
+    line-height: 1.2;
+  }
+  svg { width: 100%; height: auto; display: block; }
+  .legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: #7a8399;
+    letter-spacing: 0.06em;
+  }
+  .legend-line {
+    width: 28px;
+    height: 1px;
+    background: #4f5d75;
+  }
+  .legend-line.dashed {
+    background: none;
+    border-top: 1px dashed rgba(45,49,66,0.40);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1.5px solid #eb6c36;
+    background: rgba(235,108,54,0.08);
+  }
+  .legend-dot.ext {
+    border: 1px solid rgba(45,49,66,0.30);
+    background: rgba(45,49,66,0.03);
+  }
+  .legend-dot.opt {
+    border: 1px dashed rgba(45,49,66,0.30);
+    background: rgba(45,49,66,0.02);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="eyebrow">Arquitectura del sistema</p>
+  <h1>Aplicació Bolquers</h1>
+
+  <svg viewBox="0 0 920 500" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-labelledby="diag-title diag-desc">
+    <title id="diag-title">Arquitectura de l'aplicació Bolquers</title>
+    <desc id="diag-desc">
+      Diagrama d'arquitectura amb Vue 3 SPA al frontend (NAVEGADOR), Laravel 11 API REST amb MySQL, Storage i Queue al backend, i serveis externs: AD/LDAP hospitalari ICS·IAS, WS SOAP per a personal extern, PICA de la Generalitat per a validació de fills (Fase 2) i passarel·la de pagament Redsys/Stripe.
+    </desc>
+
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" markerWidth="7" markerHeight="7"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#2d3142"/>
+      </marker>
+      <marker id="arr-m" viewBox="0 0 10 10" markerWidth="7" markerHeight="7"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#4f5d75"/>
+      </marker>
+      <marker id="arr-opt" viewBox="0 0 10 10" markerWidth="7" markerHeight="7"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="rgba(45,49,66,0.35)"/>
+      </marker>
+    </defs>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  LAYER 1 · ZONES                               -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- Zone: NAVEGADOR -->
+    <rect x="16" y="44" width="118" height="432" rx="8"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <rect x="28" y="48" width="94" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="75" y="57" text-anchor="middle" fill="rgba(45,49,66,0.38)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">NAVEGADOR</text>
+
+    <!-- Zone: BACKEND -->
+    <rect x="150" y="44" width="374" height="432" rx="8"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <rect x="196" y="48" width="162" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="277" y="57" text-anchor="middle" fill="rgba(45,49,66,0.38)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">BACKEND · LARAVEL 11</text>
+
+    <!-- Zone: SERVEIS EXTERNS -->
+    <rect x="540" y="44" width="364" height="432" rx="8"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <rect x="614" y="48" width="124" height="12" rx="2" fill="#f5f5f5"/>
+    <text x="676" y="57" text-anchor="middle" fill="rgba(45,49,66,0.38)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">SERVEIS EXTERNS</text>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  LAYER 2 · CONNECTORS (behind nodes)           -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- 1. Vue SPA → Laravel API  (right→up elbow, link color) -->
+    <path d="M 123,226 H 133 Q 141,226 141,218 V 120 Q 141,112 149,112 H 162"
+          fill="none" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="114" y="162" width="54" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="141" y="171" text-anchor="middle" fill="#2e5aa8"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">HTTP / JSON</text>
+
+    <!-- 2. Laravel API → MySQL  (vertical down) -->
+    <path d="M 243,146 V 258"
+          fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="202" y="191" width="82" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="243" y="200" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">Eloquent ORM</text>
+
+    <!-- 3. Laravel API → Storage  (vertical down) -->
+    <path d="M 425,146 V 258"
+          fill="none" stroke="#2d3142" stroke-width="1.2" marker-end="url(#arr)"/>
+    <rect x="402" y="191" width="46" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="425" y="200" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">fitxers</text>
+
+    <!-- 4. Laravel API → Queue  (vertical, passes through gap x=324..344) -->
+    <path d="M 334,146 V 368"
+          fill="none" stroke="#4f5d75" stroke-width="1.1" stroke-dasharray="4,3"
+          marker-end="url(#arr-m)"/>
+    <rect x="308" y="169" width="52" height="14" rx="2" fill="#f5f5f5"/>
+    <text x="334" y="178" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.06em">dispatch()</text>
+
+    <!-- 5. Laravel API → AD/LDAP  (horizontal, same y) -->
+    <path d="M 506,108 H 548"
+          fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arr-m)"/>
+
+    <!-- 6. Laravel API → WS SOAP  (right+down, bend at x=524) -->
+    <path d="M 506,120 H 518 Q 524,120 524,128 V 180 Q 524,188 532,188 H 548"
+          fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arr-m)"/>
+
+    <!-- 7. Laravel API → PICA  (dashed, optional, bend at x=530) -->
+    <path d="M 506,132 H 522 Q 530,132 530,140 V 272 Q 530,280 538,280 H 548"
+          fill="none" stroke="rgba(45,49,66,0.28)" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr-opt)"/>
+
+    <!-- 8. Laravel API → Passarel·la  (right+down, bend at x=534) -->
+    <path d="M 506,144 H 526 Q 534,144 534,152 V 380 Q 534,388 542,388 H 548"
+          fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arr-m)"/>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!--  LAYER 3 · NODES (on top of connectors)        -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- Node: Vue 3 SPA  (User/Input style) -->
+    <rect x="27" y="198" width="96" height="56" rx="6"
+          fill="rgba(122,131,153,0.10)" stroke="#7a8399" stroke-width="1"/>
+    <text x="75" y="222" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">Vue 3</text>
+    <text x="75" y="237" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">SPA · TypeScript</text>
+
+    <!-- Node: Laravel 11 API  (FOCAL — accent) -->
+    <rect x="162" y="78" width="344" height="68" rx="6"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="334" y="108" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">Laravel 11 API</text>
+    <text x="334" y="124" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">REST · Sanctum tokens · PHP 8.2</text>
+
+    <!-- Node: MySQL  (FOCAL — accent) -->
+    <rect x="162" y="258" width="162" height="60" rx="6"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="243" y="284" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">MySQL</text>
+    <text x="243" y="299" text-anchor="middle" fill="#4f5d75"
+          font-family="'Geist Mono',monospace" font-size="9">MariaDB · BD pròpia</text>
+
+    <!-- Node: Storage  (Store/State style) -->
+    <rect x="344" y="258" width="162" height="60" rx="6"
+          fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+    <text x="425" y="284" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">Storage</text>
+    <text x="425" y="299" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">local · S3 / MinIO · URL signada</text>
+
+    <!-- Node: Laravel Queue  (Async/Optional — dashed border) -->
+    <rect x="162" y="368" width="344" height="56" rx="6"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1"
+          stroke-dasharray="4,3"/>
+    <text x="334" y="392" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">Laravel Queue</text>
+    <text x="334" y="408" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">driver: DB · Jobs asíncrons · email · notificacions</text>
+
+    <!-- Node: AD / LDAP Hospitalari  (External style) -->
+    <rect x="548" y="78" width="156" height="60" rx="6"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+    <text x="626" y="104" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">AD / LDAP</text>
+    <text x="626" y="119" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">ICS · IAS · autenticació AD</text>
+
+    <!-- Node: WS SOAP Externs  (External style) -->
+    <rect x="548" y="158" width="156" height="60" rx="6"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+    <text x="626" y="184" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">WS SOAP</text>
+    <text x="626" y="199" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">DT Externs · IAS Externs</text>
+
+    <!-- Node: PICA Generalitat  (Optional — dashed border) -->
+    <rect x="548" y="248" width="156" height="64" rx="6"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.22)" stroke-width="1"
+          stroke-dasharray="4,3"/>
+    <text x="626" y="262" text-anchor="middle" fill="rgba(45,49,66,0.38)"
+          font-family="'Geist Mono',monospace" font-size="7" letter-spacing="0.14em">FASE 2</text>
+    <text x="626" y="279" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">PICA</text>
+    <text x="626" y="294" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">Generalitat · validació fills</text>
+
+    <!-- Node: Passarel·la de Pagament  (External style) -->
+    <rect x="548" y="358" width="156" height="60" rx="6"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+    <text x="626" y="384" text-anchor="middle" fill="#2d3142"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">Passarel·la</text>
+    <text x="626" y="399" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="9">Redsys · Stripe · webhook POST</text>
+
+  </svg>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-line"></div>
+      <span>connexió principal</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-line dashed"></div>
+      <span>connexió asíncrona / opcional</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot"></div>
+      <span>component focal</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot ext"></div>
+      <span>servei extern</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot opt"></div>
+      <span>component opcional</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

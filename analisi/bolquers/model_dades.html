@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Model de dades — Aplicació Bolquers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 48px 24px;
+    font-family: 'Geist', sans-serif;
+  }
+  .card {
+    background: #f5f5f5;
+    border-radius: 12px;
+    border: 1px solid rgba(45,49,66,0.12);
+    padding: 40px 40px 36px;
+    max-width: 1100px;
+    width: 100%;
+  }
+  .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a8399;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: #2d3142;
+    margin-bottom: 28px;
+  }
+  svg { width: 100%; height: auto; display: block; }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="eyebrow">Model de dades</p>
+  <h1>Entitats principals — Aplicació Bolquers</h1>
+
+  <svg viewBox="0 0 1060 800" xmlns="http://www.w3.org/2000/svg"
+       role="img" aria-labelledby="er-title er-desc">
+    <title id="er-title">Model de dades de l'aplicació Bolquers</title>
+    <desc id="er-desc">Diagrama entitat-relació amb les entitats: professionals_bolquers, fills_professional, comandes, pagaments, productes, punts_distribucio i audit_log.</desc>
+
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" markerWidth="6" markerHeight="6"
+              refX="9" refY="5" orient="auto">
+        <path d="M1,1 L9,5 L1,9 L2.5,5Z" fill="#4f5d75"/>
+      </marker>
+    </defs>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  ENTITY HELPER MACRO                    -->
+    <!--  Header: eyebrow ENTITY tag + name      -->
+    <!--  Body: fields list in Geist Mono        -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <!-- ── professionals_bolquers (FOCAL) ── x=20, y=60, w=220 -->
+    <rect x="20" y="60" width="220" height="214" rx="6"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <!-- header -->
+    <rect x="20" y="60" width="220" height="32" rx="6" fill="#eb6c36"/>
+    <rect x="20" y="80" width="220" height="12" fill="#eb6c36"/>
+    <text x="130" y="72" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="130" y="84" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">professionals_bolquers</text>
+    <!-- fields -->
+    <text x="32" y="108" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="32" y="124" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">nom · cognoms</text>
+    <text x="32" y="140" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">email · telefon</text>
+    <text x="32" y="156" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">collectiu  enum[DT|IAS|DT_EXT|IAS_EXT]</text>
+    <text x="32" y="172" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">perfil_compra  enum[progenitor|especial]</text>
+    <text x="32" y="188" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">actiu · data_alta · data_baixa</text>
+    <text x="32" y="204" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">metode_auth  enum[local|ad|ws]</text>
+    <text x="32" y="220" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_ubicacio  FK → punts_distribucio</text>
+    <text x="32" y="236" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">timestamps</text>
+    <!-- divider after header -->
+    <line x1="20" y1="92" x2="240" y2="92" stroke="#eb6c36" stroke-width="0.8"/>
+
+    <!-- ── fills_professional ── x=20, y=310, w=220 -->
+    <rect x="20" y="310" width="220" height="198" rx="6"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <rect x="20" y="310" width="220" height="32" rx="6" fill="#2d3142"/>
+    <rect x="20" y="330" width="220" height="12" fill="#2d3142"/>
+    <text x="130" y="322" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="130" y="334" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">fills_professional</text>
+    <line x1="20" y1="342" x2="240" y2="342" stroke="rgba(45,49,66,0.15)" stroke-width="0.8"/>
+    <text x="32" y="358" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="32" y="374" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">cip · nom · cognoms · sexe</text>
+    <text x="32" y="390" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">data_naixement</text>
+    <text x="32" y="406" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">actiu · validat</text>
+    <text x="32" y="422" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">metod_validacio  enum[pica|doc|manual]</text>
+    <text x="32" y="438" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">data_validacio · id_gestor_validacio</text>
+    <text x="32" y="454" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">pendent_validar_ampliacio</text>
+    <text x="32" y="470" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_professional  FK → professionals</text>
+    <text x="32" y="486" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">timestamps</text>
+
+    <!-- ── comandes (FOCAL) ── x=310, y=200, w=230 -->
+    <rect x="310" y="200" width="230" height="262" rx="6"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <rect x="310" y="200" width="230" height="32" rx="6" fill="#eb6c36"/>
+    <rect x="310" y="220" width="230" height="12" fill="#eb6c36"/>
+    <text x="425" y="212" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="425" y="224" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">comandes</text>
+    <line x1="310" y1="232" x2="540" y2="232" stroke="#eb6c36" stroke-width="0.8"/>
+    <text x="322" y="248" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="322" y="264" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_professional  FK → professionals</text>
+    <text x="322" y="280" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_fill  FK → fills_professional</text>
+    <text x="322" y="296" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_producte  FK → productes</text>
+    <text x="322" y="312" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_punt_distribucio  FK → punts</text>
+    <text x="322" y="328" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_pagament  FK → pagaments</text>
+    <text x="322" y="344" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">quantitat · preu · mes_comanda</text>
+    <text x="322" y="360" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">estat  enum[pendent_pagament|pagada|</text>
+    <text x="332" y="374" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">  pendent_compra|comprada|rebuda|</text>
+    <text x="332" y="388" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">  pendent_entrega|entregada|cancel·lada|</text>
+    <text x="332" y="402" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">  falta_estoc]</text>
+    <text x="322" y="418" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">data_comanda · data_lliurament</text>
+    <text x="322" y="434" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">timestamps</text>
+    <text x="322" y="450" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">descripcio_producte_snapshot</text>
+
+    <!-- ── pagaments ── x=310, y=60, w=230 -->
+    <rect x="310" y="60" width="230" height="114" rx="6"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <rect x="310" y="60" width="230" height="32" rx="6" fill="#2d3142"/>
+    <rect x="310" y="80" width="230" height="12" fill="#2d3142"/>
+    <text x="425" y="72" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="425" y="84" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">pagaments</text>
+    <line x1="310" y1="92" x2="540" y2="92" stroke="rgba(45,49,66,0.15)" stroke-width="0.8"/>
+    <text x="322" y="108" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="322" y="124" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">gateway_order_id · idempotency_key</text>
+    <text x="322" y="140" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">import · estat  enum[pendent|ok|ko]</text>
+    <text x="322" y="156" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">passarel·la · data_pagament</text>
+
+    <!-- ── productes ── x=620, y=200, w=210 -->
+    <rect x="620" y="200" width="210" height="166" rx="6"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <rect x="620" y="200" width="210" height="32" rx="6" fill="#2d3142"/>
+    <rect x="620" y="220" width="210" height="12" fill="#2d3142"/>
+    <text x="725" y="212" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="725" y="224" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">productes</text>
+    <line x1="620" y1="232" x2="830" y2="232" stroke="rgba(45,49,66,0.15)" stroke-width="0.8"/>
+    <text x="632" y="248" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="632" y="264" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">nom · descripcio · imatge_url</text>
+    <text x="632" y="280" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">preu · actiu</text>
+    <text x="632" y="296" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">collectius_permesos  JSON[]</text>
+    <text x="632" y="312" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">limit_mensual_unitats</text>
+    <text x="632" y="328" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_producte_origen  FK (clonat de)</text>
+    <text x="632" y="344" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">timestamps</text>
+
+    <!-- ── punts_distribucio ── x=620, y=400, w=210 -->
+    <rect x="620" y="400" width="210" height="150" rx="6"
+          fill="white" stroke="#2d3142" stroke-width="1"/>
+    <rect x="620" y="400" width="210" height="32" rx="6" fill="#2d3142"/>
+    <rect x="620" y="420" width="210" height="12" fill="#2d3142"/>
+    <text x="725" y="412" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">ENTITAT</text>
+    <text x="725" y="424" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">punts_distribucio</text>
+    <line x1="620" y1="432" x2="830" y2="432" stroke="rgba(45,49,66,0.15)" stroke-width="0.8"/>
+    <text x="632" y="448" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="632" y="464" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">nom · localitzacio</text>
+    <text x="632" y="480" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">horari_entrega · actiu</text>
+    <text x="632" y="496" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">collectius_assignats  JSON[]</text>
+    <text x="632" y="512" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">timestamps</text>
+
+    <!-- ── audit_log ── x=310, y=600, w=420 -->
+    <rect x="310" y="600" width="420" height="166" rx="6"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.22)" stroke-width="1" stroke-dasharray="4,3"/>
+    <rect x="310" y="600" width="420" height="32" rx="6" fill="rgba(45,49,66,0.55)"/>
+    <rect x="310" y="620" width="420" height="12" fill="rgba(45,49,66,0.55)"/>
+    <text x="520" y="612" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">IMMUTABLE · NOMÉS INSERCIÓ</text>
+    <text x="520" y="624" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">audit_log</text>
+    <line x1="310" y1="632" x2="730" y2="632" stroke="rgba(245,245,245,0.2)" stroke-width="0.8"/>
+    <text x="322" y="648" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="322" y="664" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_professional (null=sistema) · rol</text>
+    <text x="322" y="680" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">tipus_event · entitat · id_entitat</text>
+    <text x="322" y="696" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">dades_abans JSON · dades_despres JSON</text>
+    <text x="322" y="712" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">ip · user_agent · resultat · detall</text>
+    <text x="322" y="728" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">created_at  (sense updated_at)</text>
+
+    <!-- ── pivot: professional_fill ── x=20, y=560, w=220 (taula pivot) -->
+    <rect x="20" y="560" width="220" height="100" rx="6"
+          fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.22)" stroke-width="1"/>
+    <rect x="20" y="560" width="220" height="32" rx="6" fill="rgba(45,49,66,0.45)"/>
+    <rect x="20" y="580" width="220" height="12" fill="rgba(45,49,66,0.45)"/>
+    <text x="130" y="572" text-anchor="middle" fill="white"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.16em">PIVOT</text>
+    <text x="130" y="584" text-anchor="middle" fill="white"
+          font-family="'Geist',sans-serif" font-size="12" font-weight="600">professional_fill</text>
+    <line x1="20" y1="592" x2="240" y2="592" stroke="rgba(245,245,245,0.2)" stroke-width="0.8"/>
+    <text x="32" y="608" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_professional  FK</text>
+    <text x="32" y="624" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ id_fill  FK</text>
+    <text x="32" y="640" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="9">rol  enum[progenitor|cogestio]</text>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  RELACIONS                              -->
+    <!-- ═══════════════════════════════════════ -->
+
+    <!-- professionals → fills (1 → N, vertical) -->
+    <path d="M 130,274 V 310" fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="136" y="294" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+    <text x="136" y="308" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+
+    <!-- professionals → comandes (1 → N, elbow right+down) -->
+    <path d="M 240,180 H 276 Q 284,180 284,188 V 316 Q 284,324 292,324 H 310"
+          fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="248" y="176" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+    <text x="298" y="320" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+
+    <!-- fills → comandes (1 → N, elbow right+up) -->
+    <path d="M 240,420 H 272 Q 280,420 280,412 V 380 Q 280,372 288,372 H 310"
+          fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="248" y="416" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+    <text x="298" y="368" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+
+    <!-- comandes → pagaments (N → 1, vertical up) -->
+    <path d="M 425,200 V 174" fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="431" y="192" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+    <text x="431" y="172" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+
+    <!-- comandes → productes (N → 1, horizontal right) -->
+    <path d="M 540,300 H 620" fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="546" y="296" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+    <text x="606" y="296" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+
+    <!-- comandes → punts_distribucio (N → 1, elbow right+down) -->
+    <path d="M 540,380 H 572 Q 580,380 580,388 V 476 Q 580,484 588,484 H 620"
+          fill="none" stroke="#4f5d75" stroke-width="1.1" marker-end="url(#arr)"/>
+    <text x="546" y="376" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N</text>
+    <text x="608" y="480" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">1</text>
+
+    <!-- professionals → pivot (1 → N, vertical down) -->
+    <path d="M 80,508 V 560" fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr)"/>
+
+    <!-- fills → pivot (1 → N, elbow) -->
+    <path d="M 170,508 V 544 Q 170,552 162,552 H 130 Q 122,552 122,560"
+          fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"
+          marker-end="url(#arr)"/>
+
+    <!-- cardinality labels pivot -->
+    <text x="84" y="536" fill="#4f5d75" font-family="'Geist Mono',monospace" font-size="8">N:M</text>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  LLEGENDA                               -->
+    <!-- ═══════════════════════════════════════ -->
+    <rect x="850" y="60" width="192" height="148" rx="6"
+          fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+    <text x="946" y="80" text-anchor="middle" fill="#7a8399"
+          font-family="'Geist Mono',monospace" font-size="8" letter-spacing="0.14em">LLEGENDA</text>
+    <!-- FK -->
+    <text x="866" y="100" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9"># id</text>
+    <text x="906" y="100" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">clau primària</text>
+    <text x="866" y="116" fill="#2d3142" font-family="'Geist Mono',monospace" font-size="9">→ camp</text>
+    <text x="906" y="116" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">clau forana</text>
+    <!-- lines -->
+    <line x1="862" y1="132" x2="890" y2="132" stroke="#4f5d75" stroke-width="1.1"/>
+    <text x="896" y="136" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">relació directa</text>
+    <line x1="862" y1="150" x2="890" y2="150" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"/>
+    <text x="896" y="154" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">relació N:M (pivot)</text>
+    <!-- focal -->
+    <rect x="862" y="162" width="24" height="12" rx="2"
+          fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1.5"/>
+    <text x="892" y="172" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">entitat central</text>
+    <!-- immutable -->
+    <rect x="862" y="180" width="24" height="12" rx="2"
+          fill="rgba(45,49,66,0.04)" stroke="rgba(45,49,66,0.25)" stroke-dasharray="4,3" stroke-width="1"/>
+    <text x="892" y="190" fill="#7a8399" font-family="'Geist Mono',monospace" font-size="9">immutable / pivot</text>
+
+  </svg>
+</div>
+</body>
+</html>

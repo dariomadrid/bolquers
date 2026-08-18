@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aplicació Bolquers — Informe de Projecte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --acc:    #eb6c36;
+    --ink:    #2d3142;
+    --muted:  #4f5d75;
+    --sub:    #7a8399;
+    --paper:  #f5f5f5;
+    --white:  #ffffff;
+    --border: rgba(45,49,66,0.10);
+    --bg:     #ececec;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Geist', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ── HEADER ─────────────────────────────── */
+  header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 56px 40px 48px;
+    text-align: center;
+  }
+  header .eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  header h1 span { color: var(--acc); }
+  header .meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  /* ── NAV ─────────────────────────────────── */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 40px;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  nav ul { list-style: none; display: flex; gap: 0; }
+  nav li a {
+    display: block;
+    padding: 14px 16px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  nav li a:hover { color: var(--acc); border-bottom-color: var(--acc); }
+
+  /* ── LAYOUT ──────────────────────────────── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  /* ── SECTION ─────────────────────────────── */
+  section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 36px 36px 32px;
+    scroll-margin-top: 56px;
+  }
+  .sec-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .sec-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--acc);
+    white-space: nowrap;
+  }
+  .sec-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  /* ── TYPOGRAPHY ──────────────────────────── */
+  p { color: var(--muted); margin-bottom: 12px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+  em { font-style: italic; }
+  code {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: 'Geist', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 28px 0 12px;
+  }
+  h3:first-child { margin-top: 0; }
+
+  /* ── PREFORMATTED ────────────────────────── */
+  pre {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    color: var(--ink);
+    margin: 12px 0;
+  }
+
+  /* ── TABLES ──────────────────────────────── */
+  .tbl-wrap { overflow-x: auto; margin: 0 -4px; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  thead tr { border-bottom: 1.5px solid var(--ink); }
+  th {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sub);
+    padding: 8px 12px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  tr:last-child td { border-bottom: none; }
+  td strong { color: var(--ink); }
+  tbody tr:hover td { background: var(--paper); }
+  td.num { text-align: right; font-family: 'Geist Mono', monospace; font-size: 13px; }
+  tfoot td {
+    font-weight: 600;
+    color: var(--ink);
+    border-top: 1.5px solid var(--ink);
+    border-bottom: none;
+    background: var(--paper);
+  }
+  tfoot td.num { font-family: 'Geist Mono', monospace; }
+
+  /* ── CALLOUT ─────────────────────────────── */
+  .callout {
+    background: var(--paper);
+    border-left: 3px solid var(--acc);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .callout.warn { border-color: #c0392b; }
+  .callout strong { color: var(--ink); }
+
+  /* ── BADGE PILLS ─────────────────────────── */
+  .badge {
+    display: inline-block;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+  .badge-pend { background: rgba(235,108,54,0.12); color: var(--acc); }
+  .badge-ok   { background: rgba(39,174,96,0.12);  color: #27ae60; }
+  .badge-disc { background: rgba(45,49,66,0.08);   color: var(--sub); }
+
+  /* ── PHASE CARDS ─────────────────────────── */
+  .phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 16px 0; }
+  .phase-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .phase-card .phase-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--acc);
+    margin-bottom: 6px;
+  }
+  .phase-card .phase-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.1rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .phase-card .phase-dur {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--sub);
+  }
+  .phase-card .phase-dur strong { color: var(--acc); }
+
+  /* ── SUMMARY BOX ─────────────────────────── */
+  .summary-box {
+    background: var(--ink);
+    color: var(--white);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin: 20px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+  }
+  .summary-box .sum-item {}
+  .summary-box .sum-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+  .summary-box .sum-val {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.6rem;
+    color: var(--white);
+  }
+  .summary-box .sum-val span { color: var(--acc); }
+  .summary-box .sum-sub {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 2px;
+  }
+
+  /* ── DIAGRAM LINKS ───────────────────────── */
+  .diagram-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .diagram-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s, box-shadow .15s;
+    display: block;
+  }
+  .diagram-card:hover { border-color: var(--acc); box-shadow: 0 2px 12px rgba(235,108,54,0.12); }
+  .diagram-card .dc-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--acc);
+    margin-bottom: 5px;
+  }
+  .diagram-card .dc-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .diagram-card .dc-desc {
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.5;
+  }
+
+  /* ── FOOTER ──────────────────────────────── */
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--sub);
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 40px 20px 32px; }
+    section { padding: 24px 20px; }
+    nav { padding: 0 16px; }
+  }
+
+  @media print {
+    nav, header .meta { display: none; }
+    body { background: white; font-size: 13px; }
+    section { break-inside: avoid; border: none; padding: 0; background: none; margin-bottom: 32px; }
+    .summary-box { background: #eee; color: #000; }
+    .summary-box .sum-val { color: #000; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">ICS · IAS — Projecte de nova aplicació</p>
+  <h1>Aplicació <span>Bolquers</span></h1>
+  <p style="font-family:'Geist',sans-serif;color:rgba(255,255,255,0.55);font-size:14px;margin-top:10px;">
+    Sistema independent de gestió del servei de distribució de productes d'higiene infantil
+  </p>
+  <div class="meta">
+    <span>Versió 0.1</span>
+    <span>2026-08-14</span>
+    <span>Esborrany — pendent de validació</span>
+    <span>Hospital Universitari Dr. Josep Trueta · IAS</span>
+  </div>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#cicle">Cicle</a></li>
+    <li><a href="#actors">Actors</a></li>
+    <li><a href="#funcionalitats">Funcionalitats</a></li>
+    <li><a href="#arquitectura-diagram">Arquitectura</a></li>
+    <li><a href="#cicle-diagram">Cicle</a></li>
+    <li><a href="#estats-diagram">Estats</a></li>
+    <li><a href="#model-diagram">Model</a></li>
+    <li><a href="#validacio-diagram">Validació</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#hores">Estimació</a></li>
+    <li><a href="#riscos">Riscos</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- 1. CONTEXT -->
+  <section id="context">
+    <div class="sec-header">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Context i per què</h2>
+    </div>
+    <p>
+      L'<strong>Aplicació Bolquers</strong> és un sistema independent de gestió del servei de distribució de productes
+      d'higiene infantil (bolquers, tovalloletes, empapadors) per al personal hospitalari d'<strong>ICS</strong>
+      (Institut Català de la Salut, Hospital Universitari Dr. Josep Trueta) i <strong>IAS</strong>
+      (Institut d'Assistència Sanitària) amb fills menors de 3 anys.
+    </p>
+    <p>
+      Avui el servei és un mòdul dins <code>cafetiquet</code> (Laravel 4.2, EOL 2015), compartint
+      base de dades i infraestructura amb el servei de cafeteria. L'aplicació queda <strong>congelada</strong>;
+      el projecte és una nova aplicació totalment independent.
+    </p>
+
+    <h3>Vulnerabilitats de l'aplicació actual que no es poden repetir</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Problema</th><th>Causa</th></tr></thead>
+        <tbody>
+          <tr><td>Verificació de pagament inoperativa</td><td><code>$trobat = true</code> hardcoded al callback</td></tr>
+          <tr><td>Credencials FTP en codi font</td><td>Secrets sense gestió d'entorn</td></tr>
+          <tr><td>Bypass d'autenticació per NIF</td><td>Login sense contrasenya</td></tr>
+          <tr><td>Ruta administrativa pública</td><td><code>/recalculaCIPS</code> sense autenticació</td></tr>
+          <tr><td>Callback de pagament GET amb dades sensibles</td><td>Disseny de ruta incorrecte</td></tr>
+          <tr><td>Sense log d'auditoria</td><td>Cap traçabilitat de cap operació</td></tr>
+          <tr><td>Sense rols diferenciats</td><td>Tot o res amb <code>admBolquers</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. CICLE -->
+  <section id="cicle">
+    <div class="sec-header">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Cicle complet del servei</h2>
+    </div>
+    <pre>Alta professional → Aprovació gestor → Alta fill (validació GT o document acreditatiu)
+        ↓
+Compra (finestra 1–20 del mes) → Pagament en línia (Redsys / Stripe)
+        ↓
+Gestor agrupa comandes del període → Compra al proveïdor (IAS)
+        ↓
+Recepció → Distribució als punts → Lliurament presencial al professional
+        ↓
+              Auditoria immutable de cada pas (audit_log)</pre>
+
+    <h3>Estats de la comanda</h3>
+    <pre>pendent_pagament → pagada → pendent_compra → comprada → rebuda → pendent_entrega → entregada
+                                                     ↓
+                                              falta_estoc → gestió incidència
+cancel·lada (des de pendent_pagament o pagada)</pre>
+  </section>
+
+  <!-- 3. ACTORS -->
+  <section id="actors">
+    <div class="sec-header">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Actors i rols</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Rol</th><th>Funció</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PROFESSIONAL</strong></td><td>Usuari final: fa comandes, gestiona fills</td></tr>
+          <tr><td><strong>GESTOR_DISTRIBUCIO</strong></td><td>Recepciona productes i registra lliuraments per punt</td></tr>
+          <tr><td><strong>GESTOR_COMPRA</strong></td><td>Tramita la compra global al proveïdor (IAS)</td></tr>
+          <tr><td><strong>ADMIN</strong></td><td>Configuració global, rols, col·lectius, auditoria</td></tr>
+          <tr><td><strong>SUPERVISOR</strong></td><td>Consulta d'informes i estadístiques (sense edició)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Col·lectius</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Col·lectiu</th><th>Descripció</th><th>Autenticació</th></tr></thead>
+        <tbody>
+          <tr><td><strong>DT</strong></td><td>Personal Hospital Dr. Josep Trueta (ICS)</td><td>Local (bcrypt)</td></tr>
+          <tr><td><strong>DT Externs</strong></td><td>Personal extern associat a Trueta</td><td>Local (bcrypt)</td></tr>
+          <tr><td><strong>IAS</strong></td><td>Personal de l'Institut d'Assistència Sanitària</td><td>Local (bcrypt)</td></tr>
+          <tr><td><strong>IAS Externs</strong></td><td>Personal extern associat a IAS</td><td>Local (bcrypt)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Decisió adoptada:</strong> tots els col·lectius s'autentiquen localment (bcrypt + Sanctum).
+      No hi ha integració AD/LDAP ni WS SOAP d'autenticació. La verificació d'identitat es fa en el registre,
+      no en cada login.
+    </div>
+  </section>
+
+  <!-- 4. FUNCIONALITATS -->
+  <section id="funcionalitats">
+    <div class="sec-header">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Funcionalitats principals</h2>
+    </div>
+
+    <h3>Gestió d'usuaris i fills</h3>
+    <p>Alta amb sol·licitud pendent → aprovació/rebuig pel gestor. <strong>Validació de fills</strong>:
+    personal de l'àmbit (DT, IAS) via <strong>GT</strong> (aplicació RRHH hospitalària, Fase 2);
+    personal extern via <strong>document acreditatiu</strong> (upload → revisió gestor → eliminació RGPD);
+    fallback de validació manual excepcional documentada.</p>
+    <p>CIP del fill: <code>substr(cognom1,0,2) + substr(cognom2,0,2) + sexe + any + mes + dia</code>.
+    Fills elegibles fins als 3 anys; baixa automàtica via Job diari. Un fill pot tenir co-progenitors.</p>
+
+    <h3>Compra i pagament</h3>
+    <p>Finestra mensual configurable (exemple: dies 1–20). Flux segur:
+    <code>idempotency_key</code> + <code>DB::transaction</code> + webhook HMAC + Job de neteja.</p>
+
+    <h3>Catàleg, punts i notificacions</h3>
+    <p>Catàleg per col·lectiu amb historial de canvis i clonació. Punts de distribució amb
+    assignació per professional. Validació QR a recepció/entrega (Fase 2). Notificacions email
+    parametritzables per tots els events clau.</p>
+
+    <h3>Informes i auditoria</h3>
+    <p>Fulls de recollida, estoc per període, exportació Excel/PDF. Taula <code>audit_log</code>
+    immutable amb cobertura completa: login, pagaments, validacions, lliuraments, configuració.</p>
+  </section>
+
+  <!-- 5. ARQUITECTURA -->
+  <section id="arquitectura">
+    <div class="sec-header">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">Arquitectura i stack tecnològic</h2>
+    </div>
+    <pre>┌─────────────────────────────────────────────────────────┐
+│  NAVEGADOR                                              │
+│  Vue 3 SPA  ←→  API REST (JSON + token Sanctum)        │
+└─────────────────────────────────────────────────────────┘
+                        ↕ HTTPS
+┌─────────────────────────────────────────────────────────┐
+│  BACKEND (DMZ hospitalària)                             │
+│  Laravel 11 · PHP 8.2+  ·  MySQL / MariaDB (BD pròpia) │
+│  Laravel Queue (driver DB)                              │
+│  Filesystem / MinIO  (URLs signades TTL)                │
+└─────────────────────────────────────────────────────────┘
+                        ↕
+┌─────────────────────────────────────────────────────────┐
+│  SERVEIS EXTERNS                                        │
+│  GT (RRHH hospitalari) — Fase 2                        │
+│  Passarel·la de pagament (Redsys / Stripe)             │
+└─────────────────────────────────────────────────────────┘</pre>
+
+    <h3>Stack confirmat</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Capa</th><th>Tecnologia</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Backend</strong></td><td>Laravel 11 (PHP 8.2+) — API REST</td><td>Eloquent + Jobs + Sanctum natius</td></tr>
+          <tr><td><strong>Frontend</strong></td><td>Vue 3 (SPA)</td><td>Consumeix l'API via HTTP/JSON</td></tr>
+          <tr><td><strong>Base de dades</strong></td><td>MySQL / MariaDB</td><td>BD pròpia, cap taula compartida</td></tr>
+          <tr><td><strong>Cues</strong></td><td>Laravel Queue (driver DB)</td><td>Suficient per al volum previst</td></tr>
+          <tr><td><strong>Emmagatzematge</strong></td><td>Filesystem local o MinIO</td><td>URLs signades amb TTL</td></tr>
+          <tr><td><strong>Autenticació</strong></td><td>Laravel Sanctum (tokens bearer)</td><td>Tots els mètodes generen token local</td></tr>
+          <tr><td><strong>PWA/Mòbil</strong></td><td>Ionic (sobre Vue)</td><td>Opcional — Fase 3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Principis:</strong> cap valor hardcoded · API REST per a tot · FTP eliminat ·
+      serveis externs encapsulats amb timeout i fallback · documents via URLs signades · BD totalment independent de <code>cafetiquet</code>.
+    </div>
+  </section>
+
+  <!-- 6. INTEGRACIONS -->
+  <section id="integracions">
+    <div class="sec-header">
+      <span class="sec-num">06</span>
+      <h2 class="sec-title">Integracions externes</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Sistema</th><th>Funció</th><th>Estat</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>GT</strong> (RRHH hospitalari)</td>
+            <td>Validació de fills (àmbit) + verificació professional en actiu</td>
+            <td><span class="badge badge-pend">Fase 2 · DEC-06</span></td>
+          </tr>
+          <tr>
+            <td><strong>Passarel·la de pagament</strong></td>
+            <td>Pagament en línia + devolucions parcials</td>
+            <td><span class="badge badge-pend">Pendent · DEC-01</span></td>
+          </tr>
+          <tr>
+            <td><del>AD/LDAP ICS · IAS · WS SOAP</del></td>
+            <td><del>Autenticació corporativa</del></td>
+            <td><span class="badge badge-disc">Descartat</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 7. DECISIONS -->
+  <section id="decisions">
+    <div class="sec-header">
+      <span class="sec-num">07</span>
+      <h2 class="sec-title">Decisions clau pendents</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Decisió</th><th>Impacte</th><th>Estat</th></tr></thead>
+        <tbody>
+          <tr><td><strong>DEC-01</strong></td><td>Passarel·la: Redsys o Stripe</td><td>Disseny del flux de pagament i devolucions</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-02</strong></td><td>Límits de compra: per professional o per fill</td><td>Model de dades de compra</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-03</strong></td><td>Cost del servei (gratuït, cofinançat, per col·lectiu)</td><td>Flux de pagament sencer</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-04</strong></td><td>Redsys suporta devolucions via API</td><td>Gestió d'incidències parcials</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-05</strong></td><td>Qui tramita devolucions: gestor IAS o Trueta</td><td>Workflow d'incidències</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-06</strong></td><td>Viabilitat integració GT (fills + actiu)</td><td>Validació i baixa automàtica</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-07</strong></td><td>Comandes pendents a mes nou sense lliurar</td><td>Cicle de vida de comandes</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-09</strong></td><td>Validació QR a recepció/entrega</td><td>Interfície de gestors</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 08. DIAGRAMES EMBEGUTS -->
+
+  <!-- 08.1 ARQUITECTURA -->
+  <section id="arquitectura-diagram">
+    <div class="sec-header">
+      <span class="sec-num">08.1</span>
+      <h2 class="sec-title">Arquitectura del sistema</h2>
+    </div>
+    <iframe src="arquitectura.html" style="width:100%;height:650px;border:none;border-radius:8px;background:#f5f5f5;" title="Arquitectura de l'aplicació Bolquers"></iframe>
+  </section>
+
+  <!-- 08.2 CICLE COMANDA -->
+  <section id="cicle-diagram">
+    <div class="sec-header">
+      <span class="sec-num">08.2</span>
+      <h2 class="sec-title">Cicle de vida de la comanda</h2>
+    </div>
+    <iframe src="cicle_comanda.html" style="width:100%;height:1350px;border:none;border-radius:8px;background:#f5f5f5;" title="Cicle de vida de la comanda"></iframe>
+  </section>
+
+  <!-- 08.3 ESTATS COMANDA -->
+  <section id="estats-diagram">
+    <div class="sec-header">
+      <span class="sec-num">08.3</span>
+      <h2 class="sec-title">Màquina d'estats</h2>
+    </div>
+    <iframe src="estats_comanda.html" style="width:100%;height:750px;border:none;border-radius:8px;background:#f5f5f5;" title="Màquina d'estats de la comanda"></iframe>
+  </section>
+
+  <!-- 08.4 MODEL DADES -->
+  <section id="model-diagram">
+    <div class="sec-header">
+      <span class="sec-num">08.4</span>
+      <h2 class="sec-title">Model de dades</h2>
+    </div>
+    <iframe src="model_dades.html" style="width:100%;height:950px;border:none;border-radius:8px;background:#f5f5f5;" title="Model de dades"></iframe>
+  </section>
+
+  <!-- 08.5 VALIDACIO FILLS -->
+  <section id="validacio-diagram">
+    <div class="sec-header">
+      <span class="sec-num">08.5</span>
+      <h2 class="sec-title">Validació de fills</h2>
+    </div>
+    <iframe src="validacio_fills.html" style="width:100%;height:1050px;border:none;border-radius:8px;background:#f5f5f5;" title="Validació de fills"></iframe>
+  </section>
+  <!-- ROADMAP -->
+  <section id="roadmap">
+    <div class="sec-header">
+      <span class="sec-num">09</span>
+      <h2 class="sec-title">Roadmap proposat</h2>
+    </div>
+    <div class="phases">
+      <div class="phase-card">
+        <div class="phase-label">Fase 1</div>
+        <div class="phase-name">Fonaments</div>
+        <p style="font-size:13px;color:var(--sub);margin-bottom:10px;">
+          Auth local, rols, professionals, fills, catàleg, compra, pagament, comandes, punts, notificacions, auditoria, tests, frontend bàsic.
+        </p>
+        <div class="phase-dur">Sense IA: ~8 set. · <strong>Amb Claude Code: ~3,7 set.</strong></div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Fase 2</div>
+        <div class="phase-name">Millores funcionals</div>
+        <p style="font-size:13px;color:var(--sub);margin-bottom:10px;">
+          Integració GT, devolucions parcials, incidències massives, QR, informes avançats, accions massives, observabilitat.
+        </p>
+        <div class="phase-dur">Sense IA: ~4,5 set. · <strong>Amb Claude Code: ~2 set.</strong></div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-label">Fase 3 — opcional</div>
+        <div class="phase-name">Experiència mòbil</div>
+        <p style="font-size:13px;color:var(--sub);margin-bottom:10px;">
+          PWA instal·lable, notificacions push, offline parcial, Ionic opcional.
+        </p>
+        <div class="phase-dur">Sense IA: ~1,5 set. · <strong>Amb Claude Code: ~0,5 set.</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. ESTIMACIÓ -->
+  <section id="hores">
+    <div class="sec-header">
+      <span class="sec-num">10</span>
+      <h2 class="sec-title">Estimació d'hores</h2>
+    </div>
+
+    <h3>Fase 1 — Fonaments</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Mòdul</th><th class="num">Sense IA</th><th class="num">Amb Claude Code</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Infraestructura base</td><td class="num">16 h</td><td class="num">7 h</td></tr>
+          <tr><td>Autenticació local (bcrypt + Sanctum)</td><td class="num">12 h</td><td class="num">5 h</td></tr>
+          <tr><td>Rols i permisos</td><td class="num">10 h</td><td class="num">4 h</td></tr>
+          <tr><td>Gestió de professionals</td><td class="num">24 h</td><td class="num">10 h</td></tr>
+          <tr><td>Gestió de fills + validació</td><td class="num">32 h</td><td class="num">14 h</td></tr>
+          <tr><td>Catàleg de productes</td><td class="num">16 h</td><td class="num">6 h</td></tr>
+          <tr><td>Compra i pagament (passarel·la + webhook)</td><td class="num">44 h</td><td class="num">24 h</td></tr>
+          <tr><td>Workflow de comandes</td><td class="num">32 h</td><td class="num">14 h</td></tr>
+          <tr><td>Punts de distribució</td><td class="num">10 h</td><td class="num">4 h</td></tr>
+          <tr><td>Notificacions email</td><td class="num">14 h</td><td class="num">6 h</td></tr>
+          <tr><td>Auditoria immutable</td><td class="num">16 h</td><td class="num">6 h</td></tr>
+          <tr><td>Seguretat</td><td class="num">14 h</td><td class="num">8 h</td></tr>
+          <tr><td>Tests Fase 1</td><td class="num">32 h</td><td class="num">13 h</td></tr>
+          <tr><td>Frontend Vue 3 — Fase 1</td><td class="num">60 h</td><td class="num">26 h</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Subtotal Fase 1</td><td class="num">332 h</td><td class="num">147 h</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <h3>Fase 2 — Millores funcionals</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Mòdul</th><th class="num">Sense IA</th><th class="num">Amb Claude Code</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Integració GT (RRHH)</td><td class="num">28 h</td><td class="num">16 h</td></tr>
+          <tr><td>Devolucions parcials</td><td class="num">24 h</td><td class="num">12 h</td></tr>
+          <tr><td>Incidències massives</td><td class="num">18 h</td><td class="num">8 h</td></tr>
+          <tr><td>QR entrega</td><td class="num">12 h</td><td class="num">5 h</td></tr>
+          <tr><td>Informes avançats + exportació</td><td class="num">24 h</td><td class="num">10 h</td></tr>
+          <tr><td>Accions massives</td><td class="num">14 h</td><td class="num">6 h</td></tr>
+          <tr><td>Observabilitat</td><td class="num">8 h</td><td class="num">3 h</td></tr>
+          <tr><td>Tests Fase 2</td><td class="num">18 h</td><td class="num">7 h</td></tr>
+          <tr><td>Frontend Vue 3 — Fase 2</td><td class="num">36 h</td><td class="num">15 h</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Subtotal Fase 2</td><td class="num">182 h</td><td class="num">82 h</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <h3>Fase 3 — Mòbil (opcional)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Mòdul</th><th class="num">Sense IA</th><th class="num">Amb Claude Code</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PWA</td><td class="num">14 h</td><td class="num">6 h</td></tr>
+          <tr><td>Notificacions push</td><td class="num">12 h</td><td class="num">5 h</td></tr>
+          <tr><td>Offline parcial</td><td class="num">8 h</td><td class="num">3 h</td></tr>
+          <tr><td>Ionic (opcional)</td><td class="num">18 h</td><td class="num">8 h</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Subtotal Fase 3</td><td class="num">52 h</td><td class="num">22 h</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="summary-box">
+      <div class="sum-item">
+        <div class="sum-label">Sense IA · F1+F2</div>
+        <div class="sum-val">514 <span>h</span></div>
+        <div class="sum-sub">~13 setmanes</div>
+      </div>
+      <div class="sum-item">
+        <div class="sum-label">Amb Claude Code · F1+F2</div>
+        <div class="sum-val">229 <span>h</span></div>
+        <div class="sum-sub">~5,7 setmanes · estalvi ~55%</div>
+      </div>
+      <div class="sum-item">
+        <div class="sum-label">Sense IA · 3 fases</div>
+        <div class="sum-val">566 <span>h</span></div>
+        <div class="sum-sub">~14 setmanes</div>
+      </div>
+      <div class="sum-item">
+        <div class="sum-label">Amb Claude Code · 3 fases</div>
+        <div class="sum-val">251 <span>h</span></div>
+        <div class="sum-sub">~6,3 setmanes · estalvi ~56%</div>
+      </div>
+    </div>
+
+    <div class="callout warn" style="margin-top:20px;">
+      <strong>Nota:</strong> les hores "Amb Claude Code" representen <strong>temps de l'enginyer</strong>
+      (supervisió, revisió, decisions de disseny), no temps del model. La revisió crítica és imprescindible
+      en els mòduls de pagament, seguretat i integracions hospitalàries.
+      Estimació per a 1 desenvolupador full-stack. Exclou desplegament a producció i formació d'usuaris.
+    </div>
+  </section>
+
+  <!-- 11. RISCOS -->
+  <section id="riscos">
+    <div class="sec-header">
+      <span class="sec-num">11</span>
+      <h2 class="sec-title">Riscos principals</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Risc</th><th>Prob.</th><th>Impacte</th><th>Mitigació</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Devolucions API Redsys no suportades</td>
+            <td>Mitjana</td><td>Alt</td>
+            <td>Stripe com a alternativa; procés manual de fallback</td>
+          </tr>
+          <tr>
+            <td>Integració GT no disponible o incompleta</td>
+            <td>Mitjana</td><td>Mig</td>
+            <td>Validació documental per a àmbit; baixa manual per gestor</td>
+          </tr>
+          <tr>
+            <td>Volum de comandes superior al previst</td>
+            <td>Baixa</td><td>Mig</td>
+            <td>Disseny escalable; cues asíncrones des del dia 1</td>
+          </tr>
+          <tr>
+            <td>Canvis normativa RGPD dades sanitàries</td>
+            <td>Baixa</td><td>Alt</td>
+            <td>DPO implicat des de l'inici; capa modular de dades personals</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Aplicació Bolquers · ICS · IAS · Informe v0.1 · 2026-08-14
+</footer>
+
+</body>
+</html>
