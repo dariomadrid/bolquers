@@ -684,9 +684,9 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
         <div class="phase-label">Fase 3 — opcional</div>
         <div class="phase-name">Experiència mòbil</div>
         <p style="font-size:13px;color:var(--sub);margin-bottom:10px;">
-          PWA instal·lable, notificacions push, offline parcial, Ionic opcional.
+          PWA instal·lable (manifest + service worker), sincronització offline amb IndexedDB, notificacions push, Ionic wrapper opcional.
         </p>
-        <div class="phase-dur">Sense IA: ~1,5 set. · <strong>Amb Claude Code: ~0,5 set.</strong></div>
+        <div class="phase-dur">Sense IA: ~2 set. · <strong>Amb Claude Code: ~1 set.</strong></div>
       </div>
     </div>
   </section>
@@ -756,13 +756,13 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
           <tr><th>Mòdul</th><th class="num">Sense IA</th><th class="num">Amb Claude Code</th></tr>
         </thead>
         <tbody>
-          <tr><td>PWA</td><td class="num">14 h</td><td class="num">6 h</td></tr>
-          <tr><td>Notificacions push</td><td class="num">12 h</td><td class="num">5 h</td></tr>
-          <tr><td>Offline parcial</td><td class="num">8 h</td><td class="num">3 h</td></tr>
-          <tr><td>Ionic (opcional)</td><td class="num">18 h</td><td class="num">8 h</td></tr>
+          <tr><td>PWA (manifest + service worker + cache)</td><td class="num">24 h</td><td class="num">12 h</td></tr>
+          <tr><td>Offline funcional (IndexedDB + sincronització)</td><td class="num">20 h</td><td class="num">10 h</td></tr>
+          <tr><td>Notificacions push (servidor + dispositiu)</td><td class="num">16 h</td><td class="num">8 h</td></tr>
+          <tr><td>Ionic / native wrapper (opcional)</td><td class="num">18 h</td><td class="num">9 h</td></tr>
         </tbody>
         <tfoot>
-          <tr><td>Subtotal Fase 3</td><td class="num">52 h</td><td class="num">22 h</td></tr>
+          <tr><td>Subtotal Fase 3</td><td class="num">78 h</td><td class="num">39 h</td></tr>
         </tfoot>
       </table>
     </div>
@@ -780,13 +780,13 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
       </div>
       <div class="sum-item">
         <div class="sum-label">Sense IA · 3 fases</div>
-        <div class="sum-val">566 <span>h</span></div>
-        <div class="sum-sub">~14 setmanes</div>
+        <div class="sum-val">592 <span>h</span></div>
+        <div class="sum-sub">~15 setmanes</div>
       </div>
       <div class="sum-item">
         <div class="sum-label">Amb Claude Code · 3 fases</div>
-        <div class="sum-val">251 <span>h</span></div>
-        <div class="sum-sub">~6,3 setmanes · estalvi ~56%</div>
+        <div class="sum-val">268 <span>h</span></div>
+        <div class="sum-sub">~6,7 setmanes · estalvi ~55%</div>
       </div>
     </div>
 
