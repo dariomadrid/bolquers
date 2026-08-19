@@ -810,10 +810,99 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
     </div>
   </section>
 
-  <!-- 11. RISCOS -->
-  <section id="riscos">
+  <!-- 11. ROADMAP DE DESENVOLUPAMENT -->
+  <section id="roadmap">
     <div class="sec-header">
       <span class="sec-num">11</span>
+      <h2 class="sec-title">Roadmap de desenvolupament</h2>
+    </div>
+
+    <p><strong>Planificació:</strong> Desenvolupador dedicant 4 tardes/setmana (20h/setmana). Inici: 1 setembre 2026. Pausa vacacional: 29 setembre — 13 octubre.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Fase</th><th>Inici</th><th>Finalització</th><th>Durada</th><th>Hores (Claude)</th><th>Entregable</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Fase 1 — Fonaments</strong></td>
+            <td>1 set 2026</td>
+            <td>13 nov 2026</td>
+            <td>10,7 setmanes*</td>
+            <td>173h</td>
+            <td>API base, auth, rols, professionals, fills, catàleg, pagament, comandes, distribució, email, auditoria, seguretat, tests, frontend, documentació</td>
+          </tr>
+          <tr>
+            <td><strong>Fase 2 — Millores funcionals</strong></td>
+            <td>18 nov 2026</td>
+            <td>18 des 2026</td>
+            <td>5,1 setmanes</td>
+            <td>102h</td>
+            <td>Integració GT, devolucions, incidents massius, QR, reports avançats, accions massives, observabilitat, tests, frontend, documentació</td>
+          </tr>
+          <tr>
+            <td><strong>Fase 3 — Mobile PWA</strong></td>
+            <td>8 gen 2027</td>
+            <td>24 gen 2027</td>
+            <td>2,8 setmanes</td>
+            <td>55h</td>
+            <td>PWA instal·lable, offline funcional (IndexedDB), push notifications, Ionic (opcional), documentació mobile</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="font-size: 13px; color: #7a8399; margin-top: 12px;">* Inclou pausa vacacional 29 set — 13 oct (2 setmanes). Pausa Nadal 25 des — 7 gen (estimada).</p>
+
+    <h3 style="margin-top: 32px; font-size: 16px;">Timeline per fase (20h/setmana)</h3>
+
+    <div style="background: #f5f5f5; border-left: 4px solid #eb6c36; padding: 16px; margin-top: 16px; font-family: 'Geist Mono', monospace; font-size: 12px; line-height: 1.8; overflow-x: auto;">
+      <strong>SETEMBRE 2026</strong><br/>
+      1-7 set   → 20h (Fonaments infra)<br/>
+      8-14 set  → 20h (Auth, rols, professionals)<br/>
+      15-21 set → 20h (Fills, catàleg)<br/>
+      22-28 set → 20h (Pagament, comandes)<br/>
+      <span style="color: #eb6c36;">29 set — 13 oct → 🏖 VACACIONS</span><br/>
+      <br/>
+      <strong>OCTUBRE 2026</strong><br/>
+      14-20 oct → 20h (Distribució, email, auditoria)<br/>
+      21-27 oct → 20h (Seguretat, tests)<br/>
+      28-3 nov  → 20h (Frontend Vue3)<br/>
+      <br/>
+      <strong>NOVEMBRE 2026</strong><br/>
+      4-10 nov  → 20h (Frontend, documentació tècnica)<br/>
+      13 nov    → 13h <span style="color: #2d3142; font-weight: 600;">✓ FASE 1 COMPLETA (173h)</span><br/>
+      18-24 nov → 20h (Integració GT, devolucions)<br/>
+      <br/>
+      <strong>DESEMBRE 2026</strong><br/>
+      2-8 des   → 20h (QR, reports)<br/>
+      9-15 des  → 20h (Observabilitat, tests, frontend)<br/>
+      17-18 des → 22h <span style="color: #2d3142; font-weight: 600;">✓ FASE 2 COMPLETA (102h)</span><br/>
+      <span style="color: #eb6c36;">25 des — 7 gen → 🎄 PAUSA NADAL</span><br/>
+      <br/>
+      <strong>GENER 2027</strong><br/>
+      8-14 gen  → 20h (PWA, offline)<br/>
+      15-21 gen → 20h (Push notif., Ionic)<br/>
+      24 gen    → 15h <span style="color: #2d3142; font-weight: 600;">✓ FASE 3 COMPLETA (55h)</span><br/>
+    </div>
+
+    <div class="callout" style="margin-top: 20px;">
+      <strong>Notes de planificació:</strong>
+      <ul style="margin-top: 8px; margin-left: 20px;">
+        <li>Dedicació: 4 tardes/setmana × 5h = 20h/setmana</li>
+        <li>Vacacions programades: 29 set — 13 oct (pausa de 2 setmanes)</li>
+        <li>Pausa Nadal estimada: 25 des — 7 gen</li>
+        <li>Deadlines per entrega de fase: 13 nov (F1), 18 des (F2), 24 gen (F3)</li>
+        <li>Marges: No inclou testing en producció, desplegament, ni formació d'usuaris</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 12. RISCOS -->
+  <section id="riscos">
+    <div class="sec-header">
+      <span class="sec-num">12</span>
       <h2 class="sec-title">Riscos principals</h2>
     </div>
     <div class="tbl-wrap">
