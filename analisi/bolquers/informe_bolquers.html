@@ -433,7 +433,7 @@
         ↓
 Compra (finestra 1–20 del mes) → Pagament en línia (Redsys / Stripe)
         ↓
-Gestor agrupa comandes del període → Compra al proveïdor (IAS)
+Gestor agrupa comandes del període <strong>per centre</strong> → Compra al proveïdor (IAS)
         ↓
 Recepció → Distribució als punts → Lliurament presencial al professional
         ↓
@@ -458,7 +458,7 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
         <tbody>
           <tr><td><strong>PROFESSIONAL</strong></td><td>Usuari final: fa comandes, gestiona fills</td></tr>
           <tr><td><strong>GESTOR_DISTRIBUCIO</strong></td><td>Recepciona productes i registra lliuraments per punt</td></tr>
-          <tr><td><strong>GESTOR_COMPRA</strong></td><td>Tramita la compra global al proveïdor (IAS)</td></tr>
+          <tr><td><strong>GESTOR_COMPRA</strong></td><td>Tramita la compra al proveïdor (IAS), una per centre</td></tr>
           <tr><td><strong>ADMIN</strong></td><td>Configuració global, rols, col·lectius, auditoria</td></tr>
           <tr><td><strong>SUPERVISOR</strong></td><td>Consulta d'informes i estadístiques (sense edició)</td></tr>
         </tbody>
@@ -502,6 +502,10 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
     <h3>Compra i pagament</h3>
     <p>Finestra mensual configurable (exemple: dies 1–20). Flux segur:
     <code>idempotency_key</code> + <code>DB::transaction</code> + webhook HMAC + Job de neteja.</p>
+    <p>Tancada la finestra, el gestor de compra genera <strong>una comanda al proveïdor per centre</strong>
+    (Trueta, Olot, etc.), no una agregació global: cada comanda mostra el desglossament de productes
+    demanats pels professionals d'aquell centre en el període. L'agrupació es fa per
+    <code>id_punt_distribucio</code>, ja present al model de dades.</p>
 
     <h3>Catàleg, punts i notificacions</h3>
     <p>Catàleg per col·lectiu amb historial de canvis i clonació. Punts de distribució amb
@@ -605,6 +609,7 @@ cancel·lada (des de pendent_pagament o pagada)</pre>
           <tr><td><strong>DEC-05</strong></td><td>Qui tramita devolucions: gestor IAS o Trueta</td><td>Workflow d'incidències</td><td><span class="badge badge-pend">Pendent</span></td></tr>
           <tr><td><strong>DEC-06</strong></td><td>Viabilitat integració GT (fills + actiu)</td><td>Validació i baixa automàtica</td><td><span class="badge badge-pend">Pendent</span></td></tr>
           <tr><td><strong>DEC-07</strong></td><td>Comandes pendents a mes nou sense lliurar</td><td>Cicle de vida de comandes</td><td><span class="badge badge-pend">Pendent</span></td></tr>
+          <tr><td><strong>DEC-08</strong></td><td>Comanda al proveïdor: una per centre (Trueta, Olot...), no agregació global</td><td>Workflow de comandes i informes de compra</td><td><span class="badge badge-ok">Confirmat</span></td></tr>
           <tr><td><strong>DEC-09</strong></td><td>Validació QR a recepció/entrega</td><td>Interfície de gestors</td><td><span class="badge badge-pend">Pendent</span></td></tr>
         </tbody>
       </table>
